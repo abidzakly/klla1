@@ -36,41 +36,37 @@
     </style>
 </head>
 
-<body class="bg-gray-100 flex flex-col items-center min-h-screen">
-    <nav class="bg-green-900 text-white w-full px-6 py-4 flex justify-between items-center shadow-md">
+<body class="flex flex-col items-center min-h-screen bg-gray-100">
+    <nav class="flex items-center justify-between w-full px-6 py-4 text-white bg-green-900 shadow-md">
         <img src="{{ asset('image/logooo 1.png') }}" alt="Logo">
 
-        <h1 class="text-xl font-bold mx-auto" style="font-size: 36px;">Monitoring Data DO dan SPK</h1>
+        <h1 class="mx-auto text-xl font-bold" style="font-size: 36px;">Monitoring Data DO dan SPK</h1>
     </nav>
 
 
-    <div class="w-80flex flex-col space-y-4 mt-6">
-        <div x-data="dropdownData()" class="bg-green-800 p-6 rounded-lg shadow-md overflow-x-auto relative">
-            <div class="flex flex-col md:flex-row items-center md:justify-between h-auto md:h-20 relative">
+    <div class="flex-col mt-6 space-y-4 w-80flex">
+        <div x-data="dropdownData()" class="relative p-6 overflow-x-auto bg-green-800 rounded-lg shadow-md">
+            <div class="relative flex flex-col items-center h-auto md:flex-row md:justify-between md:h-20">
                 <h1
-                    class="text-white font-semibold text-center text-4xl mt-4 md:mt-0 md:absolute md:inset-x-0 md:top-1/2 md:-translate-y-1/2">
+                    class="mt-4 text-4xl font-semibold text-center text-white md:mt-0 md:absolute md:inset-x-0 md:top-1/2 md:-translate-y-1/2">
                     Public Display
                 </h1>
 
 
-                <div x-data="{ showCalendar: false }" class="relative md:w-auto">
+                <div x-data="{ showCalendar: false, selectedDate: '{{ now()->toDateString() }}' }" class="relative md:w-auto">
                     <div @click="showCalendar = !showCalendar"
-                        class="flex items-center w-48 mt-2 md:mt-0 md:absolute md:left-0 cursor-pointer">
-                        <i class="fa-solid fa-calendar-days text-white ml-4 text-3xl"></i>
-                        <p class="text-white font-bold text-xl ml-4">Sort By Date</p>
+                        class="flex items-center w-48 mt-2 cursor-pointer md:mt-0 md:absolute md:left-0">
+                        <i class="ml-4 text-3xl text-white fa-solid fa-calendar-days"></i>
+                        <p class="ml-4 text-xl font-bold text-white">Sort By Date</p>
                     </div>
 
                     <div x-show="showCalendar" x-transition @click.outside="showCalendar = false"
-                        class="absolute left-0 mt-10 bg-white p-4 rounded-lg shadow-lg z-50">
-                        <input type="date" class="border border-gray-300 p-2 rounded-md w-full">
+                        class="absolute left-0 z-50 p-4 mt-10 bg-white rounded-lg shadow-lg">
+                        <input type="date" class="w-full p-2 border border-gray-300 rounded-md" x-model="selectedDate">
                     </div>
                 </div>
 
             </div>
-
-
-
-
 
             <div class="flex flex-col" x-data="{
                 openLocation: false,
@@ -79,6 +75,7 @@
                 selectedTempat: '{{ $detailTable->namaTempat }}',
                 selectedLocationId: '{{ $detailTable->idCabang }}', // Default ID for 'Bone'
                 selectedTempatId: '{{ $detailTable->idTempat }}',   // Default ID for 'Mall'
+                selectedDate: '{{ now()->toDateString() }}',
                         tableData: {
                             'Bone': [{ 'id': 1, 'name': 'Bone' }],
                             'Soppeng': [{ 'id': 2, 'name': 'Soppeng' }],
@@ -99,7 +96,7 @@
                             'Pasar': [{ 'id': 3, 'name': 'Pasar' }],
                         },
                         searchTable(cabangId, tempatId) {
-                            fetch(`/search-table/${cabangId}/${tempatId}`)
+                            fetch(`/search-table/${cabangId}/${tempatId}?date=${this.selectedDate}`)
                                 .then(response => response.json())
                                 .then(data => {
                                     if (data.id) {
@@ -115,7 +112,7 @@
                 <div class="flex justify-center">
 
                     <button @click="openLocation = !openLocation"
-                        class="flex gap-1 text-white text-m bg-green-800 px-4 py-2 rounded-lg hover:bg-green-600 focus:outline-none">
+                        class="flex gap-1 px-4 py-2 text-white bg-green-800 rounded-lg text-m hover:bg-green-600 focus:outline-none">
                         <p>Kalla Toyota</p>
                         <span x-text="selectedLocation"></span> ▼
                     </button>
@@ -131,7 +128,7 @@
                                 " class="block px-4 py-2 font-bold text-gray-800 hover:bg-gray-200">
                                 <div class="flex justify-between">
                                     <p x-text="location"></p>
-                                    <i class="fa-regular fa-circle-check pt-1"></i>
+                                    <i class="pt-1 fa-regular fa-circle-check"></i>
                                 </div>
                             </a>
                         </template>
@@ -143,7 +140,7 @@
                 <div class="flex mt-4">
                     <div class="relative">
                         <button @click="openTempat = !openTempat"
-                            class="w-32 text-white text-m bg-green-800 mr-4 px-4 py-2 rounded-lg hover:bg-green-600 focus:outline-none">
+                            class="w-32 px-4 py-2 mr-4 text-white bg-green-800 rounded-lg text-m hover:bg-green-600 focus:outline-none">
                             <span x-text="selectedTempat"></span> ▼
                         </button>
 
@@ -158,7 +155,7 @@
                                 " class="block px-4 py-2 font-bold text-gray-800 hover:bg-gray-200">
                                     <div class="flex justify-between">
                                         <p x-text="tempat"></p>
-                                        <i class="fa-regular fa-circle-check pt-1"></i>
+                                        <i class="pt-1 fa-regular fa-circle-check"></i>
                                     </div>
                                 </a>
                             </template>
@@ -168,21 +165,21 @@
 
 
                     <div class="flex flex-col items-center justify-center">
-                        <div class="flex flex-wrap md:flex-nowrap lg:flex-nowrap  justify-center gap-4">
+                        <div class="flex flex-wrap justify-center gap-4 md:flex-nowrap lg:flex-nowrap">
 
-                            <div id="tables-container ">
+                            <div id="tables-container">
                                 <table class="mr-4 base-table">
                                     <thead>
                                         <tr>
-                                            <th colspan="2" class="text-white text-2xl ml-4 w-48 border-4 border-black">
+                                            <th colspan="2" class="w-48 ml-4 text-2xl text-white border-4 border-black">
                                                 Leads
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th class="text-white text-xl ml-4 border-t-4 border-l-4 border-black w-20">
+                                            <th class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
                                                 Target
                                             </th>
-                                            <th class="text-white text-xl ml-4 border-r-4 border-l-4 border-black w-20">
+                                            <th class="w-20 ml-4 text-xl text-white border-l-4 border-r-4 border-black">
                                                 Act
                                             </th>
                                         </tr>
@@ -190,34 +187,34 @@
                                     <tbody id="table-body">
                                         <tr class="data-row">
                                             <td
-                                                class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                <div class="m-2 bg-white text-black rounded-md">
+                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                <div class="m-2 text-black bg-white rounded-md">
                                                     <input type="number"
-                                                        class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" oninput="calculatePercentage()">
                                                 </div>
                                             </td>
                                             <td
-                                                class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                <div class="m-2 bg-white text-black rounded-md">
+                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                <div class="m-2 text-black bg-white rounded-md">
                                                     <input type="number"
-                                                        class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" oninput="calculatePercentage()">
                                                 </div>
                                             </td>
                                         </tr>
                                         @foreach ($detailTable->leads as $lead)
-                                            <tr class="data-row">
+                                            <tr class="data-row" data-id="{{ $lead->id }}">
                                                 <td
-                                                class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                <div class="m-2 bg-white text-black rounded-md">
+                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                <div class="m-2 text-black bg-white rounded-md">
                                                     <input type="number"
-                                                        class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center" value="{{ $lead->target }}">
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" value="{{ $lead->target }}" oninput="calculatePercentage()">
                                                 </div>
                                             </td>
                                             <td
-                                                class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                <div class="m-2 bg-white text-black rounded-md">
+                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                <div class="m-2 text-black bg-white rounded-md">
                                                     <input type="number"
-                                                        class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center" value="{{ $lead->act }}">
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" value="{{ $lead->act }}" oninput="calculatePercentage()">
                                                 </div>
                                             </td>
                                             </tr>
@@ -230,15 +227,15 @@
                                 <table class="mr-4 base-table">
                                     <thead>
                                         <tr>
-                                            <th colspan="2" class="text-white text-2xl ml-4 w-48 border-4 border-black">
+                                            <th colspan="2" class="w-48 ml-4 text-2xl text-white border-4 border-black">
                                                 Prospek
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th class="text-white text-xl ml-4 border-t-4 border-l-4 border-black w-20">
+                                            <th class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
                                                 Target
                                             </th>
-                                            <th class="text-white text-xl ml-4 border-r-4 border-l-4 border-black w-20">
+                                            <th class="w-20 ml-4 text-xl text-white border-l-4 border-r-4 border-black">
                                                 Act
                                             </th>
                                         </tr>
@@ -247,37 +244,36 @@
                                     <tbody id="table-body">
                                         <tr class="data-row">
                                             <td
-                                                class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                <div class="m-2 bg-white text-black rounded-md">
+                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                <div class="m-2 text-black bg-white rounded-md">
                                                     <input type="number"
-                                                        class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" oninput="calculatePercentage()">
                                                 </div>
                                             </td>
                                             <td
-                                                class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                <div class="m-2 bg-white text-black rounded-md">
+                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                <div class="m-2 text-black bg-white rounded-md">
                                                     <input type="number"
-                                                        class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" oninput="calculatePercentage()">
                                                 </div>
                                             </td>
                                         </tr>
                                         @foreach ($detailTable->prospek as $prospekz)
-                                            <tr class="data-row">
+                                            <tr class="data-row" data-id="{{ $prospekz->id }}">
                                                 <td
-                                                    class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                    <div class="m-2 bg-white text-black rounded-md">
-                                                        <p type="number"
-                                                            class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
-                                                            {{ $prospekz->target }}
-                                                        </p>
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">                                                        
+                                                        <input type="number"
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" value="{{ $prospekz->target }}" oninput="calculatePercentage()">
                                                     </div>
                                                 </td>
                                                 <td
-                                                    class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                    <div class="m-2 bg-white text-black rounded-md">
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">
                                                         <p type="number"
-                                                            class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
-                                                            {{ $prospekz->act }}
+                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input">                                                            
+                                                            <input type="number"
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" value="{{ $prospekz->act }}" oninput="calculatePercentage()">
                                                         </p>
                                                     </div>
                                                 </td>
@@ -292,15 +288,15 @@
                                 <table class="mr-4 base-table">
                                     <thead>
                                         <tr>
-                                            <th colspan="2" class="text-white text-2xl ml-4 w-48 border-4 border-black">
+                                            <th colspan="2" class="w-48 ml-4 text-2xl text-white border-4 border-black">
                                                 Hot Prospek
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th class="text-white text-xl ml-4 border-t-4 border-l-4 border-black w-20">
+                                            <th class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
                                                 Target
                                             </th>
-                                            <th class="text-white text-xl ml-4 border-r-4 border-l-4 border-black w-20">
+                                            <th class="w-20 ml-4 text-xl text-white border-l-4 border-r-4 border-black">
                                                 Act
                                             </th>
                                         </tr>
@@ -309,17 +305,17 @@
                                     <tbody id="table-body">
                                         <tr class="data-row">
                                             <td
-                                                class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                <div class="m-2 bg-white text-black rounded-md">
+                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                <div class="m-2 text-black bg-white rounded-md">
                                                     <input type="number"
-                                                        class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" oninput="calculatePercentage()">
                                                 </div>
                                             </td>
                                             <td
-                                                class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                <div class="m-2 bg-white text-black rounded-md">
+                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                <div class="m-2 text-black bg-white rounded-md">
                                                     <input type="number"
-                                                        class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" oninput="calculatePercentage()">
                                                 </div>
                                             </td>
                                         </tr>
@@ -327,23 +323,19 @@
 
 
                                         @foreach ($detailTable->hotProspek as $hotProspekz)
-                                            <tr class="data-row">
+                                            <tr class="data-row" data-id="{{ $hotProspekz->id }}">
                                                 <td
-                                                    class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                    <div class="m-2 bg-white text-black rounded-md">
-                                                        <p type="number"
-                                                            class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
-                                                            {{ $hotProspekz->target }}
-                                                        </p>
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">                                                       
+                                                        <input type="number"
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" value="{{ $hotProspekz->target }}" oninput="calculatePercentage()">
                                                     </div>
                                                 </td>
                                                 <td
-                                                    class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                    <div class="m-2 bg-white text-black rounded-md">
-                                                        <p type="number"
-                                                            class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
-                                                            {{ $hotProspekz->target }}
-                                                        </p>
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">
+                                                        <input type="number"
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" value="{{ $hotProspekz->target }}" oninput="calculatePercentage()">                                                        
                                                     </div>
                                                 </td>
                                             </tr>
@@ -357,15 +349,15 @@
                                 <table class="mr-4 base-table">
                                     <thead>
                                         <tr>
-                                            <th colspan="2" class="text-white text-2xl ml-4 w-48 border-4 border-black">
+                                            <th colspan="2" class="w-48 ml-4 text-2xl text-white border-4 border-black">
                                                 SPK
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th class="text-white text-xl ml-4 border-t-4 border-l-4 border-black w-20">
+                                            <th class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
                                                 Target
                                             </th>
-                                            <th class="text-white text-xl ml-4 border-r-4 border-l-4 border-black w-20">
+                                            <th class="w-20 ml-4 text-xl text-white border-l-4 border-r-4 border-black">
                                                 Act
                                             </th>
                                         </tr>
@@ -373,38 +365,36 @@
                                     <tbody id="table-body">
                                         <tr class="data-row">
                                             <td
-                                                class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                <div class="m-2 bg-white text-black rounded-md">
+                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                <div class="m-2 text-black bg-white rounded-md">
                                                     <input type="number"
-                                                        class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" oninput="calculatePercentage()">
                                                 </div>
                                             </td>
                                             <td
-                                                class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                <div class="m-2 bg-white text-black rounded-md">
+                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                <div class="m-2 text-black bg-white rounded-md">
                                                     <input type="number"
-                                                        class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" oninput="calculatePercentage()">
                                                 </div>
                                             </td>
                                         </tr>
 
 
                                         @foreach ($detailTable->spk as $spkz)
-                                            <tr class="data-row">
+                                            <tr class="data-row" data-id="{{ $spkz->id }}">
                                                 <td
-                                                    class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                    <div class="m-2 bg-white text-black rounded-md">
-                                                        <p type="number"
-                                                            class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
-                                                            {{ $spkz->target }}</p>
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">                                                       
+                                                            <input type="number"
+                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" value="{{ $spkz->target }}" oninput="calculatePercentage()">
                                                     </div>
                                                 </td>
                                                 <td
-                                                    class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                    <div class="m-2 bg-white text-black rounded-md">
-                                                        <p type="number"
-                                                            class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
-                                                            {{ $spkz->act }}</p>
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">                                                        
+                                                            <input type="number"
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" value="{{ $spkz->act }}" oninput="calculatePercentage()">
                                                     </div>
                                                 </td>
                                             </tr>
@@ -417,15 +407,15 @@
                                 <table class="mr-4 base-table">
                                     <thead>
                                         <tr>
-                                            <th colspan="2" class="text-white text-2xl ml-4 w-48 border-4 border-black">
+                                            <th colspan="2" class="w-48 ml-4 text-2xl text-white border-4 border-black">
                                                 DO
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th class="text-white text-xl ml-4 border-t-4 border-l-4 border-black w-20">
+                                            <th class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
                                                 Target
                                             </th>
-                                            <th class="text-white text-xl ml-4 border-r-4 border-l-4 border-black w-20">
+                                            <th class="w-20 ml-4 text-xl text-white border-l-4 border-r-4 border-black">
                                                 Act
                                             </th>
                                         </tr>
@@ -433,38 +423,36 @@
                                     <tbody id="table-body">
                                         <tr class="data-row">
                                             <td
-                                                class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                <div class="m-2 bg-white text-black rounded-md">
+                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                <div class="m-2 text-black bg-white rounded-md">
                                                     <input type="number"
-                                                        class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" oninput="calculatePercentage()">
                                                 </div>
                                             </td>
                                             <td
-                                                class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                <div class="m-2 bg-white text-black rounded-md">
+                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                <div class="m-2 text-black bg-white rounded-md">
                                                     <input type="number"
-                                                        class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" oninput="calculatePercentage()">
                                                 </div>
                                             </td>
                                         </tr>
 
 
                                         @foreach ($detailTable->spkDo as $spkDoz)
-                                            <tr class="data-row">
+                                            <tr class="data-row" data-id="{{ $spkDoz->id }}">
                                                 <td
-                                                    class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                    <div class="m-2 bg-white text-black rounded-md">
-                                                        <p type="number"
-                                                            class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
-                                                            {{ $spkDoz->target }}</p>
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">                                                        
+                                                        <input type="number"
+                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" value="{{ $spkDoz->target }}" oninput="calculatePercentage()">
                                                     </div>
                                                 </td>
                                                 <td
-                                                    class="text-white text-xl ml-4 border-r-4 border-l-4 border-b-4 border-black w-20">
-                                                    <div class="m-2 bg-white text-black rounded-md">
-                                                        <p type="number"
-                                                            class="w-full border border-gray-300 rounded-lg paste-input px-1 text-center">
-                                                            {{ $spkDoz->act }}</p>
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">                                                        
+                                                            <input type="number"
+                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input" value="{{ $spkDoz->act }}" oninput="calculatePercentage()">
                                                     </div>
                                                 </td>
                                             </tr>
@@ -477,26 +465,19 @@
                         </div>
 
                         <button id="submit-button"
-                            class="mt-4 bg-gray-200 text-black w-full py-2 rounded-xl hover:bg-gray-100 focus:outline-none transition-all duration-300 ease-in-out text-3xl font-bold">
+                            class="w-full py-2 mt-4 text-3xl font-bold text-black transition-all duration-300 ease-in-out bg-gray-200 rounded-xl hover:bg-gray-100 focus:outline-none">
                             Submit
                         </button>
                     </div>
                 </div>
-                <div class="w-full  bg-gray-200 rounded-full h-12 mt-6">
-                    <div class="bg-green-500 h-12 rounded-full flex items-center justify-center w-2/5">
-                        <span class="text-white font-bold text-lg">40%</span>
+                <div class="w-full h-12 mt-6 bg-gray-200 rounded-full">
+                    <div class="flex items-center justify-center h-12 bg-green-500 rounded-full w-14">
+                        <span id="percentage" class="text-lg font-bold text-white">0%</span>
                     </div>
                 </div>
-
             </div>
-
-
-
         </div>
     </div>
-
-
-
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -539,15 +520,24 @@
             });
         });
     });
-
-
-
-
-
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    
+    const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
     document.addEventListener("DOMContentLoaded", function () {
+        calculatePercentage()
         document.getElementById("submit-button").addEventListener("click", function () {
             let data = [];
 
@@ -560,10 +550,12 @@
 
                 let target = inputs[0].value.trim();
                 let act = inputs[1].value.trim();
+                let id = row.dataset.id; // Get the id from the data attribute
 
                 // Only include rows with at least one non-empty input
                 if (target || act) {
                     data.push({
+                        id: id || null,
                         sub_kategori: subKategori,
                         target: target || null,
                         act: act || null,
@@ -585,11 +577,23 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("Server Response:", data); // Debugging log
-                    alert(data.message);
-                    location.reload();
+                    console.log("Server Response:", data); // Debugging log                    
+                    Toast.fire({
+                        icon: "success",
+                        title: data.message,
+                        timer: 1500,
+                    }).then(() => {
+                        location.reload(); 
+                    });
+
                 })
-                .catch(error => console.error("Error:", error));
+                .catch(error => {
+                    console.error("Error:", error);
+                    Toast.fire({
+                        icon: "error",
+                        title: error
+                    });
+                });
         });
     });
 
@@ -722,7 +726,7 @@
         };
     }
 
-    // function dropdownData() {
+    function dropdownData() {
     return {
         openLocation: false,
         openTempat: false,
@@ -791,11 +795,69 @@
             ]
         }
     }
+}
 
 
 </script>
 
+<script>
+    function animateProgress(targetPercentage) {
+        let progressBar = document.querySelector(".bg-green-500");
+        let percentageText = document.getElementById("percentage");
 
+        let currentPercentage = parseInt(percentageText.innerText) || 0;
+        let step = targetPercentage > currentPercentage ? 1 : -1; // Determine animation direction
 
+        function updateProgress() {
+            if ((step > 0 && currentPercentage < targetPercentage) || 
+                (step < 0 && currentPercentage > targetPercentage)) {
+                currentPercentage += step;
+                if(currentPercentage < 10) {
+                    progressBar.style.width = `5%`;
+                } else {
+                    progressBar.style.width = `${currentPercentage}%`;
+                }                
+                percentageText.innerText = `${currentPercentage}%`;
+
+                requestAnimationFrame(updateProgress);
+            }
+        }
+
+        updateProgress();
+    }
+
+    function calculatePercentage() {
+        let tables = document.querySelectorAll("#tables-container table");
+        let validTables = 0;            
+
+        tables.forEach(table => {
+            let rows = table.querySelectorAll(".data-row");
+            let validRow = false;
+
+            rows.forEach(row => {
+                let inputs = row.querySelectorAll("input");
+                let target = parseInt(inputs[0].value) || 0;
+                let act = parseInt(inputs[1].value) || 0;
+
+                if (act >= target && target > 0) {
+                    validRow = true;
+                }
+            });
+
+            if (validRow) {
+                validTables++;
+            }
+        });
+
+        let percentage = validTables * 20;
+        animateProgress(percentage);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("input").forEach(input => {
+            input.addEventListener("input", calculatePercentage);
+        });
+    });
+</script>
 
 </html>

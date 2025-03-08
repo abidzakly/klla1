@@ -9,7 +9,7 @@ class TabelSub extends Model
 {
     use HasFactory;
     protected $table = 'tabel_sub';
-    protected $fillable = ['tabel_umum_id', 'sub_kategori', 'target', 'act'];
+    protected $fillable = ['tabel_umum_id', 'row_id', 'sub_kategori', 'target', 'act', 'created_at', 'date'];
 
     public function tabelUmum()
     {

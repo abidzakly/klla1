@@ -15,41 +15,41 @@
     </style>
 </head>
 
-<body class="bg-gray-100 flex flex-col items-center min-h-screen">
-    <nav class="bg-green-900 text-white w-full px-6 py-4 md:flex justify-between items-center shadow-md">
+<body class="flex flex-col items-center min-h-screen bg-gray-100">
+    <nav class="items-center justify-between w-full px-6 py-4 text-white bg-green-900 shadow-md md:flex">
         <img src="{{ asset('image/logooo 1.png') }}" alt="Logo">
-        <h3 class="text-xl font-bold mx-auto mt-4 md:mt-0" style="font-size: 36px;">Kalla East Area Department Tracking System</h1>
+        <h3 class="mx-auto mt-4 text-xl font-bold md:mt-0" style="font-size: 36px;">Kalla East Area Department Tracking System</h1>
     </nav>
-    <div class="w-full max-w-6xl flex flex-col items-center justify-center space-y-6 mt-6">
+    <div class="flex flex-col items-center justify-center w-full max-w-6xl mt-6 space-y-6">
         <div class="flex justify-center gap-6">
-            <a href="{{ route('public.display', ['id' => 1]) }}"
-                class="bg-green-800 w-60 h-40 rounded-lg shadow-md flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-105 group">
+            <a href="{{ route('monitoring.do.spk', ['id' => 1]) }}"
+                class="flex items-center justify-center h-40 transition-all duration-300 ease-in-out bg-green-800 rounded-lg shadow-md w-60 hover:scale-105 group">
                 <p
-                    class="text-white font-bold text-center pointer-events-none transition-all duration-300 ease-in-out group-hover:scale-105">
+                    class="font-bold text-center text-white transition-all duration-300 ease-in-out pointer-events-none group-hover:scale-105">
                     Public Display
                 </p>
             </a>
-            <a href="{{ route('customer.gathering', ['id' => 10]) }}"
-                class="bg-green-800 w-60 h-40 rounded-lg shadow-md flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-105 group">
+            <a href="{{ route('monitoring.do.spk', ['id' => 10]) }}"
+                class="flex items-center justify-center h-40 transition-all duration-300 ease-in-out bg-green-800 rounded-lg shadow-md w-60 hover:scale-105 group">
                 <p
-                    class="text-white font-bold text-center pointer-events-none transition-all duration-300 ease-in-out group-hover:scale-105">
+                    class="font-bold text-center text-white transition-all duration-300 ease-in-out pointer-events-none group-hover:scale-105">
                     Customer Gathering
                 </p>
             </a>
         </div>
 
         <div class="flex justify-center gap-6">
-            <a href="{{ route('digital.marketing', ['id' => 7]) }}"
-                class="bg-green-800 w-60 h-40 rounded-lg shadow-md flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-105 group">
+            <a href="{{ route('monitoring.do.spk', ['id' => 7]) }}"
+                class="flex items-center justify-center h-40 transition-all duration-300 ease-in-out bg-green-800 rounded-lg shadow-md w-60 hover:scale-105 group">
                 <p
-                    class="text-white font-bold text-center pointer-events-none transition-all duration-300 ease-in-out group-hover:scale-105">
+                    class="font-bold text-center text-white transition-all duration-300 ease-in-out pointer-events-none group-hover:scale-105">
                     Digital Marketing
                 </p>
             </a>
-            <a href="{{ route('customer.gathering', ['id' => 4]) }}"
-                class="bg-green-800 w-60 h-40 rounded-lg shadow-md flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-105 group">
+            <a href="{{ route('monitoring.do.spk', ['id' => 4]) }}"
+                class="flex items-center justify-center h-40 transition-all duration-300 ease-in-out bg-green-800 rounded-lg shadow-md w-60 hover:scale-105 group">
                 <p
-                    class="text-white font-bold text-center pointer-events-none transition-all duration-300 ease-in-out group-hover:scale-105">
+                    class="font-bold text-center text-white transition-all duration-300 ease-in-out pointer-events-none group-hover:scale-105">
                     Grassroot
                 </p>
             </a>
