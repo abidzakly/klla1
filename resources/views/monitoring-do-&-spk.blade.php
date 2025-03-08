@@ -328,7 +328,7 @@
                                                     <div class="m-2 text-black bg-white rounded-md">
                                                         <input type="number"
                                                             class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
-                                                            value="{{ $hotProspekz->target }}"
+                                                            value="{{ $hotProspekz->act }}"
                                                             oninput="calculatePercentage()">
                                                     </div>
                                                 </td>

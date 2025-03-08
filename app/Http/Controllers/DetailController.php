@@ -98,8 +98,11 @@ class DetailController extends Controller
                 $isFill = $newRow?->filter(function ($item) {
                     return !empty($item['target']) || !empty($item['act']);
                 })->count();
+                $isInitial = TabelSub::where('tabel_umum_id', $tabelUmumId)
+                ->where('date', '=', $validatedData['data'][0]['date'])
+                ->count() == 0 || !(count($validatedData['data']) > 5);
 
-                if(!$isFill){
+                if(!$isFill && $isInitial) {
                     return response()->json(['message' => 'Data tidak boleh kosong'], 400);
                 }
 
