@@ -595,25 +595,32 @@
                     },
                     body: JSON.stringify(dataPayload),
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        // Jika response status bukan 200-299, lempar error manual
+                        return response.json().then(err => Promise.reject(err));
+                    }
+                    return response.json(); // Jika status 200, lanjutkan parsing JSON
+                })
                 .then(data => {
                     console.log("Server Response:", data);
-                    console.log(data)
                     Toast.fire({
-                            icon: "success",
-                            title: data.message,
-                            timer: 1500,
-                        }).then(() => {
-                            location.reload();
-                        });
+                        icon: "success",
+                        title: data.message,
+                        timer: 1500,
+                    }).then(() => {
+                        location.reload();
+                    });
                 })
                 .catch(error => {
                     console.error("Error:", error);
                     Toast.fire({
                         icon: "error",
-                        title: error
+                        timer: 1500,
+                        title: error.message || "Terjadi kesalahan",
                     });
                 });
+
         });
     });
 </script>

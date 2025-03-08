@@ -99,6 +99,10 @@ class DetailController extends Controller
                     return !empty($item['target']) || !empty($item['act']);
                 })->count();
 
+                if(!$isFill){
+                    return response()->json(['message' => 'Data tidak boleh kosong'], 400);
+                }
+
                 $rowId = Str::ulid();
                 foreach ($validatedData['data'] as $item) {
 
