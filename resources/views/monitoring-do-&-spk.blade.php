@@ -1313,29 +1313,55 @@
 
     function calculatePercentage() {
         let tables = document.querySelectorAll("#tables-container table");
-        let validTables = 0;
+        let totalPercentage = 0;
+        let skipFirstRow = true; // Default: anggap semua row pertama kosong
 
+        // Loop pertama: Cek apakah ada row 0 yang tidak kosong di salah satu tabel
         tables.forEach(table => {
             let rows = table.querySelectorAll(".data-row");
-            let validRow = false;
+            if (rows.length === 0) return; // Jika tabel kosong, skip
 
-            rows.forEach(row => {
+            let firstRow = rows[0];
+            let firstInputs = firstRow.querySelectorAll("input");
+            let firstTarget = parseInt(firstInputs[0].value) || 0;
+            let firstAct = parseInt(firstInputs[1].value) || 0;
+
+            if (firstTarget !== 0 || firstAct !== 0) {
+                skipFirstRow = false; // Jika ada yang terisi, jangan skip row 0
+            }
+        });
+
+        // Loop kedua: Hitung persentase
+        tables.forEach(table => {
+            let rows = table.querySelectorAll(".data-row");
+            let totalRows = rows.length;
+            let validRows = 0;
+
+            if (totalRows === 0) return; // Jika tabel kosong, langsung skip
+
+            rows.forEach((row, index) => {
+                if (skipFirstRow && index === 0) return; // Hanya skip row 0 jika semua kosong
+
                 let inputs = row.querySelectorAll("input");
                 let target = parseInt(inputs[0].value) || 0;
                 let act = parseInt(inputs[1].value) || 0;
 
                 if (act >= target && target > 0) {
-                    validRow = true;
+                    validRows++;
                 }
             });
 
-            if (validRow) {
-                validTables++;
-            }
+            // Hitung jumlah baris yang dihitung (kurangi 1 jika row 0 di-skip)
+            let countedRows = skipFirstRow ? totalRows - 1 : totalRows;
+
+            // Hitung bobot untuk tabel ini (maks 20%)
+            let tablePercentage = countedRows > 0 ? (validRows / countedRows) * 20 : 0;
+            totalPercentage += tablePercentage;
         });
 
-        let percentage = validTables * 20;
-        animateProgress(percentage);
+        // Pastikan total tidak lebih dari 100%
+        totalPercentage = Math.min(totalPercentage, 100);
+        animateProgress(totalPercentage);
     }
 
     document.addEventListener("DOMContentLoaded", function() {

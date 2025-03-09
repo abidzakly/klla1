@@ -23,11 +23,11 @@ class DetailController extends Controller
 
         $date = $request->query('date', now()->toDateString());
         // Ambil data dari sub-tabel berdasarkan kategori
-        $leads = TabelSub::where('tabel_umum_id', $id)->where('sub_kategori', 'leads')->whereDate('date', $date)->get();
-        $prospek = TabelSub::where('tabel_umum_id', $id)->where('sub_kategori', 'prospek')->whereDate('date', $date)->get();
-        $hotProspek = TabelSub::where('tabel_umum_id', $id)->where('sub_kategori', 'hot_prospek')->whereDate('date', $date)->get();
-        $spk = TabelSub::where('tabel_umum_id', $id)->where('sub_kategori', 'spk')->whereDate('date', $date)->get();
-        $spkDo = TabelSub::where('tabel_umum_id', $id)->where('sub_kategori', 'do')->whereDate('date', $date)->get();
+        $leads = TabelSub::where('tabel_umum_id', $id)->where('sub_kategori', 'leads')->whereDate('date', $date)->orderBy('created_at', 'desc')->get();
+        $prospek = TabelSub::where('tabel_umum_id', $id)->where('sub_kategori', 'prospek')->whereDate('date', $date)->orderBy('created_at', 'desc')->get();
+        $hotProspek = TabelSub::where('tabel_umum_id', $id)->where('sub_kategori', 'hot_prospek')->whereDate('date', $date)->orderBy('created_at', 'desc')->get();
+        $spk = TabelSub::where('tabel_umum_id', $id)->where('sub_kategori', 'spk')->whereDate('date', $date)->orderBy('created_at', 'desc')->get();
+        $spkDo = TabelSub::where('tabel_umum_id', $id)->where('sub_kategori', 'do')->whereDate('date', $date)->orderBy('created_at', 'desc')->get();
 
         // Konversi hasil query ke dalam DTO
         $detailTable = new DetailTabel(
@@ -57,7 +57,6 @@ class DetailController extends Controller
 
         // Pilih view berdasarkan route, default ke 'publicDisplay' jika tidak ditemukan
         $viewName = $viewMap[$routeName] ?? 'publicDisplay';
-
         return view('monitoring-do-&-spk', compact('detailTable'));
     }
     public function searchTableUmum($cabangId, $tempatId)
