@@ -74,7 +74,7 @@ class DetailController extends Controller
 
     private function convertToSubTabelArray($data)
     {
-        return $data->map(fn($item) => new SubTabel($item->id, $item->target, $item->act, $item->tabel_umum_id))->toArray();
+        return $data->map(fn($item) => new SubTabel($item->id, $item->target, $item->act, $item->tabel_umum_id, $item->row_id))->toArray();
     }
 
 
@@ -87,52 +87,85 @@ class DetailController extends Controller
             'data.*.target' => 'nullable|integer',
             'data.*.act' => 'nullable|integer',
             'data.*.date' => 'nullable|date',
+            'data.*.row_id' => 'nullable',
         ]);
 
         try {
             DB::beginTransaction();
 
             if (isset($validatedData['data'])) {
-                $newRow = collect($validatedData['data'])?->where('id', '=', null);
-                $isFill = $newRow?->filter(function ($item) {
+
+                $dataNew = collect($validatedData['data'])?->where('id', '=', null);
+                $groupBySubKategori = $dataNew->groupBy('sub_kategori');
+                $isFill = $groupBySubKategori->map(fn($item) => $item[0])->filter(function ($item) {
                     return !empty($item['target']) || !empty($item['act']);
                 })->count();
-                $isInitial = TabelSub::where('tabel_umum_id', $tabelUmumId)
-                ->where('date', '=', $validatedData['data'][0]['date'])
-                ->count() == 0 || !(count($validatedData['data']) > 5);
 
-                if(!$isFill && $isInitial) {
+                $isInitial = TabelSub::where('tabel_umum_id', $tabelUmumId)
+                    ->where('date', '=', $validatedData['data'][0]['date'])
+                    ->count() == 0 || !(count($validatedData['data']) > 5);
+
+                if (!$isFill && $isInitial) {
                     return response()->json(['message' => 'Data tidak boleh kosong'], 400);
                 }
 
-                $rowId = Str::ulid();
-                foreach ($validatedData['data'] as $item) {
+                $maxCount = $groupBySubKategori->map(fn($item) => $item->count())->max();
+                $namaKategori = TabelUmum::findOrFail($tabelUmumId)->kategori;
+                for ($i = 0; $i < $maxCount; $i++) {
+                    $rowId = Str::ulid();
 
-                    // Lewati jika target dan act tidak diisi
-                    if (empty($item['target']) && empty($item['act']) && !((boolean) $isFill)) {
+                    $isFillRow = $groupBySubKategori->map(fn($item) => $item[$i])->filter(function ($item)  use ($namaKategori) {
+                        if ($namaKategori == 'grassroots' || $namaKategori == 'customer_gathering') {
+                            return !empty($item['act']);
+                        } else {
+                            return !empty($item['target']) || !empty($item['act']);
+                        }
+                    })->count();
+
+                    if (!$isFillRow) {
                         continue;
                     }
 
-                    if (isset($item['id'])) {
-                        // Update existing record
-                        $tabelSub = TabelSub::find($item['id']);
-                        $tabelSub->update([
-                            'sub_kategori' => $item['sub_kategori'] ?? $tabelSub->sub_kategori,
-                            'target' => $item['target'] ?? $tabelSub->target,
-                            'act' => $item['act'] ?? $tabelSub->act,
-                        ]);
-                    } else {
-                        // Create new record
+                    foreach ($groupBySubKategori as $key => $value) {
+                        $item = $value[$i];
+
                         TabelSub::create([
-                            'tabel_umum_id' => $tabelUmumId,
-                            'sub_kategori' => $item['sub_kategori'] ?? null,
                             'row_id' => $rowId,
-                            'target' => $item['target'] ?? null,
-                            'act' => $item['act'] ?? null,
-                            'date' => $item['date'] ?? now(),
+                            'tabel_umum_id' => $tabelUmumId,
+                            'sub_kategori' => $item['sub_kategori'],
+                            'target' => $item['target'],
+                            'act' => $item['act'],
+                            'date' => $item['date'],
                         ]);
                     }
                 }
+
+                collect($validatedData['data'])
+                    ->where('id', '!=', null)
+                    ->groupBy('row_id') // Group berdasarkan row_id
+                    ->each(function ($items) {
+                        $hasValue = $items->filter(fn($item) => !empty($item['target']) || !empty($item['act']))->count();
+
+                        // Hapus semua row jika tidak ada value sama sekali
+                        if ($hasValue === 0) {
+                            TabelSub::where('row_id', $items->first()['row_id'])->delete();
+                            return;
+                        }
+
+                        // Looping untuk update data yang ada nilainya
+                        foreach ($items as $item) {
+                            if (isset($item['id'])) {
+                                $tabelSub = TabelSub::find($item['id']);
+                                if ($tabelSub) {
+                                    $tabelSub->update([
+                                        'sub_kategori' => $item['sub_kategori'] ?? null,
+                                        'target' => $item['target'] ?? null,
+                                        'act' => $item['act'] ?? null,
+                                    ]);
+                                }
+                            }
+                        }
+                    });
             }
 
             DB::commit();

@@ -139,7 +139,7 @@
                         <div class="flex flex-wrap justify-center gap-4 md:flex-nowrap lg:flex-nowrap">
 
                             <div id="tables-container">
-                                <table class="mr-4 base-table">
+                                <table class="mr-4 base-table" id="leads">
                                     <thead>
                                         <tr>
                                             <th colspan="2"
@@ -148,9 +148,13 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
-                                                Target
-                                            </th>
+                                            @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                    str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                <th
+                                                    class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
+                                                    Target
+                                                </th>
+                                            @endif
                                             <th class="w-20 ml-4 text-xl text-white border-l-4 border-r-4 border-black">
                                                 Act
                                             </th>
@@ -158,14 +162,17 @@
                                     </thead>
                                     <tbody id="table-body">
                                         <tr class="data-row">
-                                            <td
-                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
-                                                <div class="m-2 text-black bg-white rounded-md">
-                                                    <input type="number"
-                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
-                                                        oninput="calculatePercentage()">
-                                                </div>
-                                            </td>
+                                            @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                    str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                <td
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">
+                                                        <input type="number"
+                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
+                                                            oninput="calculatePercentage()">
+                                                    </div>
+                                                </td>
+                                            @endif
                                             <td
                                                 class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
                                                 <div class="m-2 text-black bg-white rounded-md">
@@ -176,15 +183,19 @@
                                             </td>
                                         </tr>
                                         @foreach ($detailTable->leads as $lead)
-                                            <tr class="data-row" data-id="{{ $lead->id }}">
-                                                <td
-                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
-                                                    <div class="m-2 text-black bg-white rounded-md">
-                                                        <input type="number"
-                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
-                                                            value="{{ $lead->target }}" oninput="calculatePercentage()">
-                                                    </div>
-                                                </td>
+                                            <tr class="data-row" data-id="{{ $lead->id }}" data-row-id="{{ $lead->row_id }}">
+                                                @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                        str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                    <td
+                                                        class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                        <div class="m-2 text-black bg-white rounded-md">
+                                                            <input type="number"
+                                                                class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
+                                                                value="{{ $lead->target }}"
+                                                                oninput="calculatePercentage()">
+                                                        </div>
+                                                    </td>
+                                                @endif
                                                 <td
                                                     class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
                                                     <div class="m-2 text-black bg-white rounded-md">
@@ -200,7 +211,7 @@
                             </div>
 
                             <div id="tables-container">
-                                <table class="mr-4 base-table">
+                                <table class="mr-4 base-table" id="prospek">
                                     <thead>
                                         <tr>
                                             <th colspan="2"
@@ -209,10 +220,13 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th
-                                                class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
-                                                Target
-                                            </th>
+                                            @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                    str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                <th
+                                                    class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
+                                                    Target
+                                                </th>
+                                            @endif
                                             <th
                                                 class="w-20 ml-4 text-xl text-white border-l-4 border-r-4 border-black">
                                                 Act
@@ -222,14 +236,17 @@
 
                                     <tbody id="table-body">
                                         <tr class="data-row">
-                                            <td
-                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
-                                                <div class="m-2 text-black bg-white rounded-md">
-                                                    <input type="number"
-                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
-                                                        oninput="calculatePercentage()">
-                                                </div>
-                                            </td>
+                                            @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                    str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                <td
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">
+                                                        <input type="number"
+                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
+                                                            oninput="calculatePercentage()">
+                                                    </div>
+                                                </td>
+                                            @endif
                                             <td
                                                 class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
                                                 <div class="m-2 text-black bg-white rounded-md">
@@ -240,26 +257,25 @@
                                             </td>
                                         </tr>
                                         @foreach ($detailTable->prospek as $prospekz)
-                                            <tr class="data-row" data-id="{{ $prospekz->id }}">
-                                                <td
-                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
-                                                    <div class="m-2 text-black bg-white rounded-md">
-                                                        <input type="number"
-                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
-                                                            value="{{ $prospekz->target }}"
-                                                            oninput="calculatePercentage()">
-                                                    </div>
-                                                </td>
-                                                <td
-                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
-                                                    <div class="m-2 text-black bg-white rounded-md">
-                                                        <p type="number"
-                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input">
+                                            <tr class="data-row" data-id="{{ $prospekz->id }}" data-row-id="{{ $prospekz->row_id }}">
+                                                @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                        str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                    <td
+                                                        class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                        <div class="m-2 text-black bg-white rounded-md">
                                                             <input type="number"
                                                                 class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
-                                                                value="{{ $prospekz->act }}"
+                                                                value="{{ $prospekz->target }}"
                                                                 oninput="calculatePercentage()">
-                                                        </p>
+                                                        </div>
+                                                    </td>
+                                                @endif
+                                                <td
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">
+                                                        <input type="number" value="{{ $prospekz->act }}"
+                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
+                                                            oninput="calculatePercentage()">
                                                     </div>
                                                 </td>
                                             </tr>
@@ -270,7 +286,7 @@
                             </div>
 
                             <div id="tables-container">
-                                <table class="mr-4 base-table">
+                                <table class="mr-4 base-table" id="hot_prospek">
                                     <thead>
                                         <tr>
                                             <th colspan="2"
@@ -279,10 +295,13 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th
-                                                class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
-                                                Target
-                                            </th>
+                                            @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                    str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                <th
+                                                    class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
+                                                    Target
+                                                </th>
+                                            @endif
                                             <th
                                                 class="w-20 ml-4 text-xl text-white border-l-4 border-r-4 border-black">
                                                 Act
@@ -292,14 +311,17 @@
 
                                     <tbody id="table-body">
                                         <tr class="data-row">
-                                            <td
-                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
-                                                <div class="m-2 text-black bg-white rounded-md">
-                                                    <input type="number"
-                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
-                                                        oninput="calculatePercentage()">
-                                                </div>
-                                            </td>
+                                            @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                    str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                <td
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">
+                                                        <input type="number"
+                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
+                                                            oninput="calculatePercentage()">
+                                                    </div>
+                                                </td>
+                                            @endif
                                             <td
                                                 class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
                                                 <div class="m-2 text-black bg-white rounded-md">
@@ -313,16 +335,19 @@
 
 
                                         @foreach ($detailTable->hotProspek as $hotProspekz)
-                                            <tr class="data-row" data-id="{{ $hotProspekz->id }}">
-                                                <td
-                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
-                                                    <div class="m-2 text-black bg-white rounded-md">
-                                                        <input type="number"
-                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
-                                                            value="{{ $hotProspekz->target }}"
-                                                            oninput="calculatePercentage()">
-                                                    </div>
-                                                </td>
+                                            <tr class="data-row" data-id="{{ $hotProspekz->id }}" data-row-id="{{ $hotProspekz->row_id }}">
+                                                @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                        str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                    <td
+                                                        class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                        <div class="m-2 text-black bg-white rounded-md">
+                                                            <input type="number"
+                                                                class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
+                                                                value="{{ $hotProspekz->target }}"
+                                                                oninput="calculatePercentage()">
+                                                        </div>
+                                                    </td>
+                                                @endif
                                                 <td
                                                     class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
                                                     <div class="m-2 text-black bg-white rounded-md">
@@ -340,7 +365,7 @@
                             </div>
 
                             <div id="tables-container">
-                                <table class="mr-4 base-table">
+                                <table class="mr-4 base-table" id="spk">
                                     <thead>
                                         <tr>
                                             <th colspan="2"
@@ -349,10 +374,13 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th
-                                                class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
-                                                Target
-                                            </th>
+                                            @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                    str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                <th
+                                                    class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
+                                                    Target
+                                                </th>
+                                            @endif
                                             <th
                                                 class="w-20 ml-4 text-xl text-white border-l-4 border-r-4 border-black">
                                                 Act
@@ -361,14 +389,17 @@
                                     </thead>
                                     <tbody id="table-body">
                                         <tr class="data-row">
-                                            <td
-                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
-                                                <div class="m-2 text-black bg-white rounded-md">
-                                                    <input type="number"
-                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
-                                                        oninput="calculatePercentage()">
-                                                </div>
-                                            </td>
+                                            @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                    str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                <td
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">
+                                                        <input type="number"
+                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
+                                                            oninput="calculatePercentage()">
+                                                    </div>
+                                                </td>
+                                            @endif
                                             <td
                                                 class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
                                                 <div class="m-2 text-black bg-white rounded-md">
@@ -381,16 +412,19 @@
 
 
                                         @foreach ($detailTable->spk as $spkz)
-                                            <tr class="data-row" data-id="{{ $spkz->id }}">
-                                                <td
-                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
-                                                    <div class="m-2 text-black bg-white rounded-md">
-                                                        <input type="number"
-                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
-                                                            value="{{ $spkz->target }}"
-                                                            oninput="calculatePercentage()">
-                                                    </div>
-                                                </td>
+                                            <tr class="data-row" data-id="{{ $spkz->id }}" data-row-id="{{ $spkz->row_id }}">
+                                                @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                        str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                    <td
+                                                        class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                        <div class="m-2 text-black bg-white rounded-md">
+                                                            <input type="number"
+                                                                class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
+                                                                value="{{ $spkz->target }}"
+                                                                oninput="calculatePercentage()">
+                                                        </div>
+                                                    </td>
+                                                @endif
                                                 <td
                                                     class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
                                                     <div class="m-2 text-black bg-white rounded-md">
@@ -407,7 +441,7 @@
                             </div>
 
                             <div id="tables-container">
-                                <table class="mr-4 base-table">
+                                <table class="mr-4 base-table" id="do">
                                     <thead>
                                         <tr>
                                             <th colspan="2"
@@ -416,10 +450,13 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th
-                                                class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
-                                                Target
-                                            </th>
+                                            @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                    str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                <th
+                                                    class="w-20 ml-4 text-xl text-white border-t-4 border-l-4 border-black">
+                                                    Target
+                                                </th>
+                                            @endif
                                             <th
                                                 class="w-20 ml-4 text-xl text-white border-l-4 border-r-4 border-black">
                                                 Act
@@ -428,14 +465,17 @@
                                     </thead>
                                     <tbody id="table-body">
                                         <tr class="data-row">
-                                            <td
-                                                class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
-                                                <div class="m-2 text-black bg-white rounded-md">
-                                                    <input type="number"
-                                                        class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
-                                                        oninput="calculatePercentage()">
-                                                </div>
-                                            </td>
+                                            @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                    str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                <td
+                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                    <div class="m-2 text-black bg-white rounded-md">
+                                                        <input type="number"
+                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
+                                                            oninput="calculatePercentage()">
+                                                    </div>
+                                                </td>
+                                            @endif
                                             <td
                                                 class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
                                                 <div class="m-2 text-black bg-white rounded-md">
@@ -445,19 +485,20 @@
                                                 </div>
                                             </td>
                                         </tr>
-
-
                                         @foreach ($detailTable->spkDo as $spkDoz)
-                                            <tr class="data-row" data-id="{{ $spkDoz->id }}">
-                                                <td
-                                                    class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
-                                                    <div class="m-2 text-black bg-white rounded-md">
-                                                        <input type="number"
-                                                            class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
-                                                            value="{{ $spkDoz->target }}"
-                                                            oninput="calculatePercentage()">
-                                                    </div>
-                                                </td>
+                                            <tr class="data-row" data-id="{{ $spkDoz->id }}" data-row-id="{{ $spkDoz->row_id }}">
+                                                @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                                                        str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                                                    <td
+                                                        class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
+                                                        <div class="m-2 text-black bg-white rounded-md">
+                                                            <input type="number"
+                                                                class="w-full px-1 text-center border border-gray-300 rounded-lg paste-input"
+                                                                value="{{ $spkDoz->target }}"
+                                                                oninput="calculatePercentage()">
+                                                        </div>
+                                                    </td>
+                                                @endif
                                                 <td
                                                     class="w-20 ml-4 text-xl text-white border-b-4 border-l-4 border-r-4 border-black">
                                                     <div class="m-2 text-black bg-white rounded-md">
@@ -482,58 +523,107 @@
                         </button>
                     </div>
                 </div>
-                <div class="w-full h-12 mt-6 bg-gray-200 rounded-full">
-                    <div class="flex items-center justify-center h-12 bg-green-500 rounded-full w-14">
-                        <span id="percentage" class="text-lg font-bold text-white">0%</span>
+                @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                        str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                    <div class="w-full h-12 mt-6 bg-gray-200 rounded-full">
+                        <div class="flex items-center justify-center h-12 bg-green-500 rounded-full w-14">
+                            <span id="percentage" class="text-lg font-bold text-white">0%</span>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
 </body>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll("tbody").forEach(tableBody => { // Select all table bodies
-            const inputRow = tableBody.querySelector(".data-row"); // First input row
+    let tables = ["leads", "prospek", "hot_prospek", "spk", "do"];
 
-            tableBody.addEventListener("paste", function(event) {
-                event.preventDefault(); // Prevent default paste behavior
+    document.querySelectorAll("tbody").forEach(tableBody => {
+    const inputRow = tableBody.querySelector(".data-row"); // Row input utama (Row 1)
 
-                let clipboardData = event.clipboardData || window.clipboardData;
-                let pastedData = clipboardData.getData("text");
+    tableBody.addEventListener("paste", function(event) {
+        event.preventDefault();
 
-                // Split data by new lines (rows) and tabs (columns)
-                let rows = pastedData.trim().split("\n").map(row => row.split("\t"));
+        const clipboardData = event.clipboardData || window.clipboardData;
+        const pastedData = clipboardData.getData("text");
 
-                // Find the first database-generated row (i.e., first <tr> after input row)
-                let firstDatabaseRow = inputRow.nextElementSibling;
+        const rows = pastedData.trim().split("\n").map(row => row.split("\t").slice(0, 2));
 
-                rows.forEach((rowData) => {
-                    let newRow = inputRow.cloneNode(
-                        true); // Clone input row for new data
-                    let inputs = newRow.querySelectorAll(".paste-input");
+        const allRows = Array.from(tableBody.querySelectorAll(".data-row ~ tr"));
+        const targetRowIndex = allRows.indexOf(event.target.closest("tr"));
 
-                    // Fill the cloned row with pasted data
-                    rowData.forEach((cellData, cellIndex) => {
-                        if (inputs[cellIndex]) {
-                            inputs[cellIndex].value = cellData.trim();
-                        }
-                    });
+        const isPasteInInputRow = targetRowIndex === -1;
 
-                    // Insert new rows below the input row but above database-generated rows
-                    if (firstDatabaseRow) {
-                        tableBody.insertBefore(newRow, firstDatabaseRow);
-                    } else {
-                        tableBody.appendChild(
-                            newRow); // If no database rows exist, append
-                    }
-                });
+        // ✅ Ambil row terakhir yang sudah terisi
+        const lastFilledRow = allRows[allRows.length - 1] || inputRow;
 
-                // Ensure the input row always remains at the top
-                tableBody.prepend(inputRow);
+        let isOverflowData = false;
+        let lastInsertedRow = lastFilledRow; // Track row terakhir yang sudah diappend
+
+        rows.forEach((rowData, rowIndex) => {
+            let targetRow;
+
+            if (isPasteInInputRow) {
+                // ✅ Kalau paste di Row 1 → Dorong semua row ke bawah
+                targetRow = inputRow.cloneNode(true);
+                tableBody.insertBefore(targetRow, inputRow.nextSibling);
+            } else {
+                const targetIndex = targetRowIndex + rowIndex;
+
+                // ✅ Kalau row sudah ada, timpa data
+                targetRow = allRows[targetIndex] || inputRow.cloneNode(true);
+
+                // ✅ Kalau data berlebih, append di bawah row terakhir yang sudah terisi + 1
+                if (!allRows[targetIndex]) {
+                    isOverflowData = true;
+                    // lastInsertedRow.insertAdjacentElement('afterend', targetRow);
+                    lastInsertedRow = targetRow; // Update row terakhir yang sudah ditambahkan
+                }
+            }
+
+            // ✅ Isi data ke input
+            const inputs = targetRow.querySelectorAll(".paste-input");
+            rowData.forEach((cellData, cellIndex) => {
+                if (inputs[cellIndex]) {
+                    inputs[cellIndex].value = cellData.trim();
+                    inputs[cellIndex].dispatchEvent(new Event('input'));
+                }
             });
         });
+
+        // ✅ Auto sejajarkan table lainnya
+        document.querySelectorAll("tbody").forEach(otherTableBody => {
+            if (otherTableBody !== tableBody) {
+                const mainRowCount = tableBody.querySelectorAll(".data-row ~ tr").length;
+                const otherRowCount = otherTableBody.querySelectorAll(".data-row ~ tr").length;
+
+                const diff = mainRowCount - otherRowCount;
+
+                const otherInputRow = otherTableBody.querySelector(".data-row");
+
+                for (let i = 0; i < diff; i++) {
+                    const newRow = otherInputRow.cloneNode(true);
+
+                    // ✅ Kalau data berlebih, append di bawah row terakhir yang sudah terisi
+                    if (isOverflowData) {
+                        const lastOtherRow = otherTableBody.querySelector(".data-row ~ tr:last-child") || otherInputRow;
+                        lastOtherRow.insertAdjacentElement('afterend', newRow);
+                    } 
+                    // ✅ Kalau masih dalam jumlah row yang cukup, insert di bawah row input
+                    else {
+                        otherTableBody.insertBefore(newRow, otherInputRow.nextSibling);
+                    }
+                }
+            }
+        });
+
+        // ✅ Tetap pastikan Row Input di atas
+        tableBody.prepend(inputRow);
     });
+});
+
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -560,13 +650,20 @@
                 let subKategori = tableTitle.replace(/\s+/g,
                     "_"); // Convert space to underscore
                 let inputs = row.querySelectorAll("input");
+                console.log(inputs)
 
-                if (inputs.length < 2) return; // Ensure there are two input fields
+                // if (inputs.length < 2) return; // Ensure there are two input fields
 
-                let target = inputs[0].value.trim();
-                let act = inputs[1].value.trim();
+                let target = inputs[0]?.value.trim();
+                @if (str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('customer gathering') &&
+                        str_replace('_', ' ', strtolower($detailTable->namaTabelUmum)) != strtolower('grassroots'))
+                    let act = inputs[1]?.value.trim();
+                @else
+                    let act = inputs[0]?.value.trim();
+                @endif
                 let id = row.dataset
                     .id; // Get the id from the data attribute
+                let rowId = row.getAttribute('data-row-id');                    
 
                 let divElement = document.querySelector(".computedClass");
                 const selectedDate = divElement.getAttribute("data-date");
@@ -577,15 +674,16 @@
                     target: target || null,
                     act: act || null,
                     date: selectedDate,
+                    row_id: rowId || null,
                 });
             });
 
-            console.log("Collected Data:", data); // Debugging log
             const tabelUmumId = "{{ $detailTable->idTabelUmum }}"; // Ensure Blade processes this
             const dataPayload = {
                 data: data
             }; // Wrap data properly
-
+                        
+            // return;
             fetch(`/submit-endpoint/${tabelUmumId}`, {
                     method: "POST",
                     headers: {
@@ -1290,7 +1388,7 @@
         let progressBar = document.querySelector(".bg-green-500");
         let percentageText = document.getElementById("percentage");
 
-        let currentPercentage = parseInt(percentageText.innerText) || 0;
+        let currentPercentage = parseInt(percentageText?.innerText) || 0;
         let step = targetPercentage > currentPercentage ? 1 : -1; // Determine animation direction
 
         function updateProgress() {
@@ -1323,8 +1421,8 @@
 
             let firstRow = rows[0];
             let firstInputs = firstRow.querySelectorAll("input");
-            let firstTarget = parseInt(firstInputs[0].value) || 0;
-            let firstAct = parseInt(firstInputs[1].value) || 0;
+            let firstTarget = parseInt(firstInputs[0]?.value) || 0;
+            let firstAct = parseInt(firstInputs[1]?.value) || 0;
 
             if (firstTarget !== 0 || firstAct !== 0) {
                 skipFirstRow = false; // Jika ada yang terisi, jangan skip row 0
@@ -1343,8 +1441,8 @@
                 if (skipFirstRow && index === 0) return; // Hanya skip row 0 jika semua kosong
 
                 let inputs = row.querySelectorAll("input");
-                let target = parseInt(inputs[0].value) || 0;
-                let act = parseInt(inputs[1].value) || 0;
+                let target = parseInt(inputs[0]?.value) || 0;
+                let act = parseInt(inputs[1]?.value) || 0;
 
                 if (act >= target && target > 0) {
                     validRows++;
