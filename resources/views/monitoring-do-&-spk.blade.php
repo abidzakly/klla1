@@ -100,6 +100,19 @@
                                 </div>
                             </a>
                         </template>
+                    </div>                    
+                    
+                    <div class="absolute flex items-center right-10">
+                        <a href="{{ route('photo-activity.monitoring') . "?id_photo_activity=" . $idTableUmumPhotoActivity->id }} ">
+                            <label for="imageUpload"
+                            class="flex items-center gap-2 ml-auto text-lg font-bold text-white cursor-pointer">
+                            <span class="text-2xl">Foto</span>
+                            <i class="text-2xl fa-solid fa-plus"></i>
+                            {{-- <input type="file" id="imageUpload" class="hidden" accept=".jpg,.jpeg,.png,.svg,"
+                                multiple> --}}
+
+                        </label>
+                        </a>
                     </div>
                 </div>
 

@@ -33,5 +33,26 @@ class TabelUmumSeeder extends Seeder
         }
 
         DB::table('tabel_umum')->insert($data);
+
+        $kategoriList = [
+            'public_display',
+            'grassroots',
+            'digital_marketing',
+            'customer_gathering'
+        ];
+
+        // Seeder untuk table_umum_photo_activities (tanpa tempat)
+        $dataPhotoActivity = [];
+        foreach ($cabangs as $cabang_id) {
+            foreach ($kategoriList as $kategori) {
+                $dataPhotoActivity[] = [
+                    'kategori' => $kategori,
+                    'cabang_id' => $cabang_id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
+        DB::table('table_umum_photo_activities')->insert($dataPhotoActivity);
     }
 }

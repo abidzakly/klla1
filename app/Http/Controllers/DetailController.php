@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TabelUmum;
 use App\Models\TabelSub;
 use App\Models\Cabang;
+use App\Models\TableUmumPhotoActivity;
 use App\Models\Tempat;
 use App\DTOs\DetailTabel;
 use App\DTOs\SubTabel;
@@ -20,6 +21,8 @@ class DetailController extends Controller
         $tabelUmum = TabelUmum::findOrFail($id);
         $cabang = Cabang::find($tabelUmum->cabang_id);
         $tempat = Tempat::find($tabelUmum->tempat_id);
+        $idTableUmumPhotoActivity = TableUmumPhotoActivity::where('kategori', $tabelUmum->kategori)
+        ->where('cabang_id', $cabang->id)->first();
 
         $date = $request->query('date', now()->toDateString());
         // Ambil data dari sub-tabel berdasarkan kategori
@@ -57,7 +60,8 @@ class DetailController extends Controller
 
         // Pilih view berdasarkan route, default ke 'publicDisplay' jika tidak ditemukan
         $viewName = $viewMap[$routeName] ?? 'publicDisplay';
-        return view('monitoring-do-&-spk', compact('detailTable'));
+
+        return view('monitoring-do-&-spk', compact('detailTable', 'idTableUmumPhotoActivity'));
     }
     public function searchTableUmum($cabangId, $tempatId)
     {

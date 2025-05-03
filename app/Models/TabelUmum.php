@@ -8,6 +8,7 @@ class TabelUmum extends Model
 {
     use HasFactory;
     protected $table = 'tabel_umum';
+    // Tidak perlu menambah $keyType atau $incrementing, default sudah sesuai untuk bigint/integer
     protected $fillable = ['kategori', 'tempat_id', 'cabang_id'];
 
     public function cabang()
