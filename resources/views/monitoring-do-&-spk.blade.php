@@ -84,7 +84,7 @@
                     </button>
 
                     <div x-show="openLocation" @click.away="openLocation = false"
-                        class="absolute top-[90px] mt-2 w-48 bg-[#d9d9d9] shadow-lg transition-all duration-300 ease-in-out z-20 max-h-40 overflow-y-auto">
+                        class="absolute top-[90px] mt-2 w-48 bg-[#26B52B] shadow-lg transition-all duration-300 ease-in-out z-20 max-h-40 overflow-y-auto">
                         <template x-for="(tempatList, location) in tableData" :key="location">
                             <a href="#"
                                 @click.prevent="                                
@@ -93,15 +93,15 @@
                                 openLocation = false;
                                 searchTable(selectedLocationId, selectedTempatId);
                                 "
-                                class="block px-4 py-2 font-bold text-gray-800 hover:bg-gray-200">
+                                class="block px-4 py-2 font-bold text-white hover:bg-green-800">
                                 <div class="flex justify-between">
                                     <p x-text="location"></p>
                                     <i class="pt-1 fa-regular fa-circle-check"></i>
                                 </div>
                             </a>
                         </template>
-                    </div>                    
-                    
+                    </div>
+
                     <div class="absolute flex items-center right-10">
                         <a href="{{ route('photo-activity.monitoring') . "?id_photo_activity=" . $idTableUmumPhotoActivity->id }} ">
                             <label for="imageUpload"
@@ -126,7 +126,7 @@
                         </button>
 
                         <div x-show="openTempat" @click.away="openTempat = false"
-                            class="absolute top-[40px] mt-2 w-48 bg-[#d9d9d9] shadow-lg transition-all duration-300 ease-in-out z-20">
+                            class="absolute top-[40px] mt-2 w-48 bg-[#26B52B] shadow-lg transition-all duration-300 ease-in-out z-20">
                             <template x-for="(tempatList, tempat) in tempatListData" :key="tempat">
                                 <a href="#"
                                     @click.prevent="
@@ -136,7 +136,7 @@
                                 openTempat = false;
                                 searchTable(selectedLocationId, selectedTempatId);
                                 "
-                                    class="block px-4 py-2 font-bold text-gray-800 hover:bg-gray-200">
+                                    class="block px-4 py-2 font-bold text-white hover:bg-green-800">
                                     <div class="flex justify-between">
                                         <p x-text="tempat"></p>
                                         <i class="pt-1 fa-regular fa-circle-check"></i>
@@ -621,7 +621,7 @@
                     if (isOverflowData) {
                         const lastOtherRow = otherTableBody.querySelector(".data-row ~ tr:last-child") || otherInputRow;
                         lastOtherRow.insertAdjacentElement('afterend', newRow);
-                    } 
+                    }
                     // ✅ Kalau masih dalam jumlah row yang cukup, insert di bawah row input
                     else {
                         otherTableBody.insertBefore(newRow, otherInputRow.nextSibling);
@@ -676,7 +676,7 @@
                 @endif
                 let id = row.dataset
                     .id; // Get the id from the data attribute
-                let rowId = row.getAttribute('data-row-id');                    
+                let rowId = row.getAttribute('data-row-id');
 
                 let divElement = document.querySelector(".computedClass");
                 const selectedDate = divElement.getAttribute("data-date");
@@ -695,7 +695,7 @@
             const dataPayload = {
                 data: data
             }; // Wrap data properly
-                        
+
             // return;
             fetch(`/submit-endpoint/${tabelUmumId}`, {
                     method: "POST",

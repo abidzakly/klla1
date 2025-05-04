@@ -225,10 +225,10 @@
 
                         <!-- Dropdown Menu -->
                         <div x-show="openPhotoActivity" @click.away="openPhotoActivity = false"
-                            class="absolute top-full mt-2 w-64 bg-[#d9d9d9] shadow-lg rounded max-h-40 overflow-y-auto text-2xl font-semibold text-gray-800">
+                            class="absolute top-full mt-2 w-64 bg-[#26B52B] shadow-lg rounded max-h-40 overflow-y-auto text-2xl font-semibold text-gray-800">
                             <template x-for="item in photoActivityList" :key="item.id">
                                 <a href="#" @click.prevent="selectPhotoActivity(item)"
-                                    class="block px-4 py-2 hover:bg-gray-200">
+                                    class="block px-4 py-2 text-white hover:bg-green-800">
                                     <div class="flex justify-between">
                                         <span x-text="item.text"></span>
                                         <i class="pt-1 fa-regular fa-circle-check"
@@ -264,10 +264,10 @@
                     </button>
 
                     <div x-show="openLocation" @click.away="openLocation = false"
-                        class="absolute top-[90px] mt-2 w-48 bg-[#d9d9d9] shadow-lg transition-all duration-300 ease-in-out z-20 max-h-40 overflow-y-auto">
+                        class="absolute top-[90px] mt-2 w-48 bg-[#26B52B] shadow-lg transition-all duration-300 ease-in-out z-20 max-h-40 overflow-y-auto">
                         <template x-for="(id, location) in tableData" :key="location">
                             <a href="#" @click.prevent="selectLocation(location)"
-                                class="block px-4 py-2 font-bold text-gray-800 hover:bg-gray-200">
+                                class="block px-4 py-2 font-bold text-white hover:bg-green-800">
                                 <div class="flex justify-between">
                                     <p x-text="location"></p>
                                     <i class="pt-1 fa-regular fa-circle-check"></i>
