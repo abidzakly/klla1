@@ -81,7 +81,7 @@ class PhotoActivityController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('photos', function ($rows) {
-                $html = '<div class="grid justify-center w-full grid-cols-1 gap-8 m-8 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-5">';
+                $html = '<div class="grid justify-center w-full grid-cols-1 gap-8 mx-8 mb-3 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-5">';
                 foreach ($rows as $row) {
                     $html .= view('photo-activity.partials.photo', compact('row'))->render();
                 }

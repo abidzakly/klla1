@@ -152,6 +152,24 @@
             /* tinggi bebas sih, sesuai tampilan */
             text-align: center;
         }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            color: white !important;
+            /* warna teks pagination */
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            color: white !important;
+            /* tombol aktif */
+            background-color: #4CAF50 !important;
+            /* opsional: warna background tombol aktif */
+            border: 1px solid white;
+            /* opsional */
+        }
+
+        .paginate_button.current {
+            background: black !important;
+        }
     </style>
 </head>
 
@@ -429,7 +447,7 @@
     </div>
 
     <div
-        class="grid justify-center w-full grid-cols-1 gap-8 m-8 max-h-50 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-5">
+        class="grid justify-center w-full grid-cols-1 gap-8 mx-8 mb-3 max-h-50 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-5">
 
     </div>
 </body>
@@ -506,7 +524,7 @@
             selectedLocation: '{{ $detailTable->namaCabang }}',
             selectedLocationId: '{{ $detailTable->idCabang }}',
             selectedTabelUmumId: '{{ $detailTable->idTabelUmum }}',
-            selectedPhotoActivityText: '{{ 'Foto' . ucwords(str_replace('_', ' ', $detailTable->namaTabelUmum)) }}',
+            selectedPhotoActivityText: '{{ 'Foto ' . ucwords(str_replace('_', ' ', $detailTable->namaTabelUmum)) }}',
             selectedPhotoActivityKategori: "{{ $detailTable->namaTabelUmum }}",
             photoActivityList: [],
             tableData: {},
